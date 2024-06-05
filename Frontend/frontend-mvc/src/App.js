@@ -1,30 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import Message from './Message';
+import VideoPlayer from './VideoPlayer';
 
-const socket = io('http://localhost:33000');
+// Establish the socket connection
+const socket = io('http://localhost:33000'); // Update with your server address if different
 
-function App() {
-  const [messages, setMessages] = useState([]);
+const App = () => {
   const [messageText, setMessageText] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
-    socket.on('message', (message) => {
-      setMessages([...messages, message]);
+    // Listen for incoming messages
+    socket.on('message', (msg) => {
+      console.log('Received message:', msg);
+      setMessages((prevMessages) => [...prevMessages, msg]);
     });
-  }, [messages]);
 
+   
+
+    // Cleanup listeners on component unmount
+    return () => {
+      socket.off('message');
+     
+    };
+  }, []);
+
+  // Emit a new message
   const sendMessage = () => {
-    socket.emit('sendMessage', { text: messageText });
+    socket.emit('sendMessage', messageText);
     setMessageText('');
   };
 
+  // Emit a pause command
+  const sendPause = () => {
+    socket.emit('sendPause', 'Pause command');
+  };
+
+  // Emit a play command
+  const sendPlay = () => {
+    socket.emit('sendPlay', 'Play command');
+  };
+
   return (
-    <div className="App">
-      <h1>Real-Time Chat App</h1>
+    <div>
+      <h1>MoviesConnexion Back</h1>
       <div className="messages">
         {messages.map((message, index) => (
-          <Message key={index} username={message.username} text={message.text} />
+          <div key={index}>
+            <strong> {message}</strong>
+          </div>
         ))}
       </div>
       <div className="input-box">
@@ -34,10 +59,16 @@ function App() {
           onChange={(e) => setMessageText(e.target.value)}
           placeholder="Type your message..."
         />
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage}>Send Message</button>
+        
+      <VideoPlayer />
+      
       </div>
+      
+      <p>Status: {status}</p>
     </div>
   );
-}
+};
 
 export default App;
+
