@@ -1,21 +1,35 @@
-// fileName : server.js 
-// Example using the http module
+const express = require('express');
 const http = require('http');
+const socketIo = require('socket.io');
+const cors= require('cors')
 
-// Create an HTTP server
-const server = http.createServer((req, res) => {
-    // Set the response headers
-    res.writeHead(200, { 'Content-Type': 'text/html' });
+const app = express();
 
-    // Write the response content
-    res.write('<h1>Hello, Node.js HTTP Server!</h1>');
-    res.end();
+app.use(cors({
+    origin: '*'
+}));
+
+const server = http.createServer(app);
+const io = socketIo(server, {
+    cors: {
+      origin: '*',
+    }
 });
 
-// Specify the port to listen on
-const port = 33000;
+io.on('connection', (socket) => {
+    console.log('New user connected');
 
-// Start the server
-server.listen(port, () => {
-    console.log(`Node.js HTTP server is running on port ${port}`);
+    socket.on('sendMessage', (message) => {
+        io.emit('message', message); // Broadcast the message to all connected clients
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('User disconnected');
+    });
+  });
+
+const PORT = process.env.PORT || 33000;
+
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

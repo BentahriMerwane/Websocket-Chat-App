@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+import Message from './Message';
+
+const socket = io('http://localhost:33000');
 
 function App() {
+  const [messages, setMessages] = useState([]);
+  const [messageText, setMessageText] = useState('');
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+      setMessages([...messages, message]);
+    });
+  }, [messages]);
+
+  const sendMessage = () => {
+    socket.emit('sendMessage', { text: messageText });
+    setMessageText('');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Real-Time Chat App</h1>
+      <div className="messages">
+        {messages.map((message, index) => (
+          <Message key={index} username={message.username} text={message.text} />
+        ))}
+      </div>
+      <div className="input-box">
+        <input
+          type="text"
+          value={messageText}
+          onChange={(e) => setMessageText(e.target.value)}
+          placeholder="Type your message..."
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 }
