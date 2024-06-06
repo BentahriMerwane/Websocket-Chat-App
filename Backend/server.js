@@ -18,13 +18,20 @@ const io = socketIo(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log('New user connected');
-    console.log(socket.id)
+    console.log('New user connected', socket.id);
 
-    socket.on('sendMessage', (message) => {
-        console.log('Message:', message);
-        io.emit('message', socket.id + " : " + message ); // Broadcast the message to all connected clients
+    socket.on('joinRoom', ({ username, room }) => {
+        socket.join(room);
+        socket.username = username;
+        console.log(`User ${username} joined room: ${room}`);
     });
+
+    socket.on('sendMessage', ({ room, message }) => {
+        console.log(`Message in room ${room} from ${socket.username}: ${message}`);
+        io.to(room).emit('message', `${socket.username}: ${message}`);
+    });
+
+  
 
     socket.on('sendPause', (message) => {
         console.log('Pause:', message);
@@ -36,10 +43,13 @@ io.on('connection', (socket) => {
         io.emit('play', message); // Broadcast the play event to all connected clients
     });
 
+
+ 
     socket.on('disconnect', () => {
-        console.log('User disconnected');
+        console.log('User disconnected', socket.id);
     });
 });
+
 
 const PORT = process.env.PORT || 33000;
 
