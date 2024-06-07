@@ -1,64 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import io from 'socket.io-client';
+import './videoplayer.css'; // Import the CSS for VideoPlayer
 
-// Establish the socket connection
-const socket = io('http://localhost:33000'); // Update with your server address if different
+const socket = io('http://localhost:33000');
 
 const VideoPlayer = ({ room }) => {
-  const [isPlaying, setIsPlaying] = useState();
-  console.log(room)
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    // Listen for pause events
     socket.on('pause', (receivedRoom) => {
-
-      console.log(receivedRoom)
-      //console.log(room)
-
-      console.log(`Pause command in room ${receivedRoom}`);
       if (receivedRoom === room) {
         setIsPlaying(false);
       }
     });
 
-    // Listen for play events
     socket.on('play', (receivedRoom) => {
-    
-      console.log(`Play command in room ${receivedRoom}`);
-     
       if (receivedRoom === room) {
         setIsPlaying(true);
       }
     });
 
-    // Cleanup listeners on component unmount
     return () => {
-      socket.off('sendPause');
-      socket.off('sendPlay');
+      socket.off('pause');
+      socket.off('play');
     };
   }, [room]);
-  
+
   const handlePause = () => {
-    console.log('Sending pause command');
     socket.emit('sendPause', room);
   };
-  
+
   const handlePlay = () => {
-    console.log('Sending play command');
     socket.emit('sendPlay', room);
   };
-  
 
   return (
-    <div className='player-wrapper'>
+    <div className="player-wrapper">
       <ReactPlayer
-        className='react-player'
-        url='https://www.w3schools.com/html/mov_bbb.mp4'
+        className="react-player"
+        url="https://www.w3schools.com/html/mov_bbb.mp4"
         playing={isPlaying}
-     
+        
+        width="100%"
+        height="100%"
       />
-      <div>
+      <div className="player-controls">
         <button onClick={handlePlay}>Play</button>
         <button onClick={handlePause}>Pause</button>
         <p>Status: {isPlaying ? 'Playing' : 'Paused'}</p>
