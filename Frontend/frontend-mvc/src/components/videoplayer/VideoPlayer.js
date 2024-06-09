@@ -35,6 +35,10 @@ const VideoPlayer = ({ room }) => {
     socket.emit('sendPlay', room);
   };
 
+  const handleFile =  () => {
+   console.log("see files")
+  };
+
   return (
     <div className="player-wrapper">
       <ReactPlayer
@@ -49,7 +53,9 @@ const VideoPlayer = ({ room }) => {
         <button onClick={handlePlay}>Play</button>
         <button onClick={handlePause}>Pause</button>
         <p>Status: {isPlaying ? 'Playing' : 'Paused'}</p>
+        <button onClick={handleFile}>Select file</button>
       </div>
+      
     </div>
   );
 };

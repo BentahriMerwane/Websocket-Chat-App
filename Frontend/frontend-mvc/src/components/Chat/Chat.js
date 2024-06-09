@@ -14,6 +14,7 @@ const Chat = ({ messages, sendMessage }) => {
 
   return (
     <div className="chat">
+        
       <div className="messages">
         {messages.map((message, index) => (
           <Message key={index} text={message} />

@@ -1,10 +1,13 @@
 # First node js server
 https://medium.com/@dhwajgupta27/build-a-node-js-server-in-5-minutes-quick-and-easy-server-setup-6eb594e8b26
+https://dreamix.eu/insights/node-js-project-structure-a-short-guide/
 
 # socketio app :
 https://medium.com/@abbasashraff12313/creating-a-real-time-chat-application-with-socket-io-and-react-ecca78c13819
 https://dev.to/novu/building-a-chat-app-with-socketio-and-react-2edj
 https://www.freecodecamp.org/news/build-a-realtime-chat-app-with-react-express-socketio-and-harperdb/
+
+#
 
 # github
 

@@ -49,7 +49,8 @@ const App = () => {
             <VideoPlayer room={room} />
           
           <div className="chat-container">
-          <h1 className='roomtitlejoin'>The room : {room}</h1>
+          <h1 className='roomtitlejoin'>The room : {room} + { "Your are " + username} </h1>
+        
             <Chat messages={messages} sendMessage={sendMessage} />
           </div>
         </div>

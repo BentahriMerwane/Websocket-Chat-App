@@ -3,7 +3,17 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 
-const app = express();
+
+
+const home = require('./routers/homerouter'); 
+const about = require('./routers/aboutrouter'); 
+const contact = require('./routers/contactrouter'); 
+  
+const app = express(); 
+  
+app.use(home); 
+app.use(about); 
+app.use(contact); 
 
 // Enable CORS for all origins
 app.use(cors({
@@ -15,6 +25,21 @@ const io = socketIo(server, {
     cors: {
         origin: '*',
     }
+});
+
+
+//API 
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+ 
+app.get('/about', (req, res) => {
+    res.send('Welcome to about us page');
+});
+ 
+app.get('/contact', (req, res) => {
+    res.send('Welcome to contact us page');
 });
 
 io.on('connection', (socket) => {
