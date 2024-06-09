@@ -1,4 +1,7 @@
+//link : https://onexlab-io.medium.com/docker-compose-mongodb-prod-dev-test-environment-eb1a75675f93
+
 // insert-data.js
+
 db = db.getSiblingDB('mydb'); // Use or create the database 'mydb'
 
 // Create the rooms collection and insert example data

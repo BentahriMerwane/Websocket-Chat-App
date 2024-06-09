@@ -27,6 +27,7 @@ const JoinRoom = ({ onJoin }) => {
         value={room}
         onChange={(e) => setRoom(e.target.value)}
         placeholder="Room"
+        className="room-select"
       >
         <option value="">Select a room</option>
         {roomOptions.map((option) => (

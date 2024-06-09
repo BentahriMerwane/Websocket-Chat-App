@@ -43,7 +43,7 @@ const VideoPlayer = ({ room }) => {
     <div className="player-wrapper">
       <ReactPlayer
         className="react-player"
-        url="https://www.w3schools.com/html/mov_bbb.mp4"
+        url="https://www.muovitech.com/imagebank/video/MT_movie_EN.mp4"
         playing={isPlaying}
         
         width="100%"

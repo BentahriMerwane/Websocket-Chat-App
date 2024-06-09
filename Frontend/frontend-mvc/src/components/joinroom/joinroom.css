@@ -36,3 +36,27 @@
 .join-room button:hover {
   background-color: #772ce8;
 }
+
+
+/* Style the select element */
+.room-select {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* Style the options */
+.room-select option {
+  padding: 10px;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Style the first option (placeholder) */
+.room-select option[value=""] {
+  color: #999;
+}
